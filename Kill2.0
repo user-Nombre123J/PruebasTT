@@ -23,3 +23,29 @@ local window = library:AddWindow(title, {
     min_size = Vector2.new(480, 870),
     can_resize = true,
 })
+local Killer = window:AddTab("Kill")
+_G.PunchEnabled = true
+
+Killer:AddSwitch("Enable Punch", function(state)
+    _G.PunchEnabled = state
+
+    local Players = game:GetService("Players")
+    local LP = Players.LocalPlayer
+
+    local char = LP.Character
+    local bp = LP:FindFirstChild("Backpack")
+
+    if not char or not bp then return end
+
+    -- 🔧 Cambia "Punch" si tu tool tiene otro nombre
+    local tool = char:FindFirstChild("Punch") or bp:FindFirstChild("Punch")
+    if not tool then return end
+
+    if _G.PunchEnabled then
+        -- ACTIVAR (equipar)
+        tool.Parent = char
+    else
+        -- DESACTIVAR (desequipar)
+        tool.Parent = bp
+    end
+end)
