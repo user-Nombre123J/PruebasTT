@@ -24,6 +24,40 @@ local window = library:AddWindow(title, {
     can_resize = true,
 })
 local Killer = window:AddTab("Kill")
+_G.EquipLoop = false
+
+Killer:AddSwitch("Equip / Unequip Punch", function(state)
+    _G.EquipLoop = state
+
+    local Players = game:GetService("Players")
+    local RunService = game:GetService("RunService")
+    local LP = Players.LocalPlayer
+
+    task.spawn(function()
+        while _G.EquipLoop do
+            local char = LP.Character
+            local bp = LP:FindFirstChild("Backpack")
+
+            if char and bp then
+                -- 🔧 Cambia "Punch" si tu tool tiene otro nombre
+                local tool = char:FindFirstChild("Punch")
+                    or bp:FindFirstChild("Punch")
+
+                if tool then
+                    -- Desequipar
+                    tool.Parent = bp
+                    task.wait(0.01)
+
+                    -- Equipar
+                    tool.Parent = char
+                end
+            end
+
+            RunService.Heartbeat:Wait()
+        end
+    end)
+end)
+
 _G.PunchEnabled = true
 
 Killer:AddSwitch("Enable Punch", function(state)
