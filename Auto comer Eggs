@@ -105,7 +105,7 @@ task.spawn(function()
 		if autoEatEnabled then
 			local ate = eatProteinEgg()
 			if ate then
-				task.wait(2) -- 1 huevo cada 0.45 Milisegundos 
+				task.wait(2) -- 1 huevo cada 0.01 Milisegundos 
 			else
 				task.wait(1) -- ya no hay, sigue revisando
 			end
