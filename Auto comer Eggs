@@ -1,0 +1,37 @@
+local player = game.Players.LocalPlayer
+
+local function eatAllProteinEggs()
+    local backpack = player:WaitForChild("Backpack")
+    local character = player.Character or player.CharacterAdded:Wait()
+
+    while true do
+        local foundEgg = false
+
+        for _, tool in pairs(backpack:GetChildren()) do
+            if tool:IsA("Tool") and (tool.Name == "Protein Egg" or tool.Name == "Huevo de proteína") then
+                foundEgg = true
+                
+                -- Equipar el huevo
+                tool.Parent = character
+                task.wait(0.1)
+                
+                -- Comerlo (usar la tool)
+                tool:Activate()
+                task.wait(0.4)
+                
+                break
+            end
+        end
+
+        -- Si ya no quedan huevos, se detiene
+        if not foundEgg then
+            break
+        end
+    end
+end
+
+-- Ejecutar automáticamente cuando aparezca el personaje
+player.CharacterAdded:Connect(function()
+    task.wait(2)
+    eatAllProteinEggs()
+end)
